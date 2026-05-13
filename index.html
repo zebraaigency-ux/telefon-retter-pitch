@@ -10,729 +10,657 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/reveal.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5/dist/theme/white.css" />
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts: Inter + Source Serif 4 -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400;1,8..60,600&display=swap" rel="stylesheet" />
 
   <style>
-    /* ─── Brand Tokens (telefon-retter / firma-retter) ──────────────────── */
+    /* ─── Tokens ──────────────────────────────────────────────────────────── */
     :root {
-      --sage:        #6B8E7F;
-      --sage-deep:   #4F6F60;
-      --sage-light:  #EAF0ED;
-      --ink:         #0F172A;
-      --ink-soft:    #334155;
-      --ink-muted:   #64748B;
-      --cream:       #FAFAF7;
-      --bone:        #F1EDE4;
-      --line:        #D6CCB8;
-      --amber:       #D97706;
-      --amber-light: #FEF3C7;
-      --white:       #FFFFFF;
-
-      --font-serif: "Source Serif 4", Georgia, serif;
-      --font-sans:  "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 14px;
-
-      --shadow-sm: 0 1px 3px rgba(15,23,42,0.06);
-      --shadow-md: 0 4px 16px rgba(15,23,42,0.08);
-      --shadow-lg: 0 12px 40px rgba(15,23,42,0.12);
+      --paper:      #FAFAF7;
+      --ink:        #0F172A;
+      --ink-mid:    #334155;
+      --ink-muted:  #475569;
+      --ink-dim:    #94A3B8;
+      --sage:       #6B8E7F;
+      --sage-deep:  #4F6F60;
+      --sage-light: #E8EFEB;
+      --sage-rule:  rgba(107,142,127,0.30);
+      --amber:      #D97706;
+      --serif:      "Source Serif 4", Georgia, serif;
+      --sans:       "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* ─── Reveal.js Base Overrides ──────────────────────────────────────── */
-    .reveal-viewport {
-      background: var(--cream);
-    }
-
+    /* ─── Reveal base hard-reset ──────────────────────────────────────────── */
+    .reveal-viewport,
+    .reveal,
     .reveal .slides {
-      font-family: var(--font-sans);
-      color: var(--ink);
+      background: var(--paper) !important;
     }
 
-    .reveal section {
-      background: var(--cream);
-      height: 100%;
-      width: 100%;
-      padding: 0;
-      display: flex !important;
-      flex-direction: column;
-      justify-content: center;
-      text-align: left;
+    .reveal .slides section {
+      background: var(--paper) !important;
+      font-family: var(--sans) !important;
+      color: var(--ink) !important;
+      text-align: left !important;
+      padding: 0 !important;
+      height: 100% !important;
+      width: 100% !important;
+      top: 0 !important;
+      left: 0 !important;
+      box-sizing: border-box !important;
     }
 
-    /* Reset Reveal defaults */
-    .reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal p,
-    .reveal li, .reveal span {
-      font-family: var(--font-sans);
-      color: var(--ink);
-      text-transform: none;
-      letter-spacing: 0;
-      margin: 0;
-      padding: 0;
-      line-height: 1.3;
+    /* Kill all Reveal typography defaults */
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4,
+    .reveal p, .reveal li, .reveal span, .reveal strong, .reveal em,
+    .reveal blockquote, .reveal pre, .reveal code {
+      font-family: var(--sans) !important;
+      color: var(--ink) !important;
+      text-transform: none !important;
+      letter-spacing: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      word-wrap: normal !important;
+      text-shadow: none !important;
     }
 
-    .reveal h1 {
-      font-family: var(--font-serif);
-      font-weight: 600;
-      font-size: 2.4rem;
-      line-height: 1.2;
-      color: var(--ink);
+    .reveal blockquote {
+      width: auto !important;
     }
 
-    .reveal h2 {
-      font-family: var(--font-serif);
-      font-weight: 600;
-      font-size: 1.9rem;
-      line-height: 1.25;
-      color: var(--ink);
-    }
-
-    .reveal p {
-      font-size: 1rem;
-      line-height: 1.6;
-      color: var(--ink-soft);
-    }
-
-    /* ─── Slide Inner Layout ────────────────────────────────────────────── */
-    .slide-inner {
+    /* ─── Slide frame ─────────────────────────────────────────────────────── */
+    .slide-frame {
       width: 100%;
       height: 100%;
-      padding: 3rem 4rem;
+      box-sizing: border-box;
+      padding: 7vw 9vw;
       display: flex;
       flex-direction: column;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      box-sizing: border-box;
     }
 
-    /* ─── Label / Eyebrow ───────────────────────────────────────────────── */
-    .label {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--sage);
-      margin-bottom: 1rem;
-    }
-
-    /* ─── Slide 1 — Cover ───────────────────────────────────────────────── */
-    .cover-slide {
-      background: var(--cream);
-    }
-
-    .cover-slide .slide-inner {
-      justify-content: space-between;
-      padding-top: 3.5rem;
-      padding-bottom: 2.5rem;
-    }
-
-    .cover-corner {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(ellipse at top right, rgba(107,142,127,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .cover-phone-icon {
-      position: absolute;
-      top: 2.5rem;
-      right: 3.5rem;
-      color: var(--sage);
-      opacity: 0.55;
-    }
-
-    .cover-headline {
-      font-family: var(--font-serif);
-      font-weight: 700;
-      font-size: 3.2rem;
-      line-height: 1.15;
-      color: var(--ink);
-      max-width: 700px;
-    }
-
-    .cover-headline span {
-      color: var(--sage);
-      font-family: var(--font-serif);
-    }
-
-    .cover-sub {
-      font-size: 1.15rem;
-      color: var(--ink-soft);
-      max-width: 580px;
-      margin-top: 1.25rem;
-      line-height: 1.65;
-    }
-
-    .cover-footer {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-top: auto;
-    }
-
-    .cover-footer-logo {
-      font-family: var(--font-sans);
-      font-weight: 600;
-      font-size: 0.82rem;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--ink-muted);
-    }
-
-    .cover-footer-dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--line);
-    }
-
-    /* ─── Slide 2 — Problem ─────────────────────────────────────────────── */
-    .problem-slide .big-stat {
-      font-family: var(--font-serif);
-      font-size: 3rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.1;
-      margin-bottom: 0.5rem;
-    }
-
-    .problem-slide .big-stat span {
-      color: var(--amber);
-      font-family: var(--font-serif);
-    }
-
-    .bullet-cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-top: 1.25rem;
-    }
-
-    .bullet-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.75rem;
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 0.9rem 1rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .bullet-card .icon-wrap {
-      flex-shrink: 0;
-      width: 32px;
-      height: 32px;
-      background: var(--sage-light);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--sage);
-    }
-
-    .bullet-card p {
-      font-size: 0.82rem;
-      color: var(--ink-soft);
-      line-height: 1.5;
-      margin: 0;
-    }
-
-    .quote-card {
-      background: var(--sage-light);
-      border-left: 3px solid var(--sage);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      padding: 0.75rem 1rem;
-      margin-top: 0.85rem;
-    }
-
-    .quote-card p {
-      font-size: 0.78rem;
-      color: var(--sage-deep);
-      font-style: italic;
-      line-height: 1.5;
-    }
-
-    /* ─── Slide 3 — Kosten ──────────────────────────────────────────────── */
-    .cost-slide .three-cols {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto 1fr;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-    }
-
-    .cost-col {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 1.4rem 1.2rem;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .cost-col.result {
-      background: var(--sage-light);
-      border-color: var(--sage);
-    }
-
-    .cost-col .cost-num {
-      font-family: var(--font-serif);
-      font-size: 1.9rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1;
-      display: block;
-      margin-bottom: 0.3rem;
-    }
-
-    .cost-col.result .cost-num {
-      color: var(--sage-deep);
-    }
-
-    .cost-col .cost-label {
-      font-size: 0.72rem;
-      color: var(--ink-muted);
-      line-height: 1.4;
-    }
-
-    .cost-operator {
-      font-size: 2rem;
-      color: var(--line);
-      font-weight: 300;
-      padding: 0 0.25rem;
-      line-height: 1;
-    }
-
-    .pull-quote {
-      background: var(--amber-light);
-      border-left: 3px solid var(--amber);
-      border-radius: 0 var(--radius-md) var(--radius-md) 0;
-      padding: 0.8rem 1.1rem;
-      margin-top: 1.25rem;
-    }
-
-    .pull-quote p {
-      font-size: 0.82rem;
-      color: var(--ink-soft);
+    /* ─── Eyebrow label ───────────────────────────────────────────────────── */
+    .eyebrow {
+      font-family: var(--sans) !important;
+      font-size: 0.68em;
       font-weight: 500;
-      margin: 0;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage) !important;
+      margin-bottom: 2.2em !important;
     }
 
-    .pull-quote strong {
-      color: var(--amber);
+    /* ─── Display serif headlines ─────────────────────────────────────────── */
+    .display {
+      font-family: var(--serif) !important;
+      font-weight: 600 !important;
+      line-height: 1.08 !important;
+      letter-spacing: -0.02em !important;
+      color: var(--ink) !important;
     }
 
-    /* ─── Slide 4 — Lösung ──────────────────────────────────────────────── */
-    .solution-slide .feature-cards {
+    .display-xl  { font-size: 5.5em; }
+    .display-lg  { font-size: 4.5em; }
+    .display-md  { font-size: 3.5em; }
+    .display-sm  { font-size: 3em; }
+    .display-xs  { font-size: 2em; }
+    .display-num { font-size: 5.8em; color: var(--sage) !important; }
+
+    .display-italic {
+      font-style: italic !important;
+      font-weight: 400 !important;
+    }
+
+    /* ─── Body text ───────────────────────────────────────────────────────── */
+    .body-lg {
+      font-family: var(--sans) !important;
+      font-size: 1.15em;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-mid) !important;
+      max-width: 60ch;
+    }
+
+    .body-md {
+      font-family: var(--sans) !important;
+      font-size: 1.05em;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-mid) !important;
+    }
+
+    .body-sm {
+      font-family: var(--sans) !important;
+      font-size: 0.88em;
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink-muted) !important;
+    }
+
+    /* ─── Horizontal rule ─────────────────────────────────────────────────── */
+    .h-rule {
+      width: 100%;
+      height: 1px;
+      background: var(--sage-rule);
+      margin: 1.6em 0;
+      flex-shrink: 0;
+    }
+
+    .h-rule-short {
+      width: 48px;
+      height: 1px;
+      background: var(--sage);
+      margin-bottom: 2em;
+      flex-shrink: 0;
+    }
+
+    /* ─── Slide number ────────────────────────────────────────────────────── */
+    .slide-num {
+      position: absolute;
+      bottom: 1.6em;
+      right: 2.2em;
+      font-family: var(--sans) !important;
+      font-size: 0.62em;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      color: var(--sage) !important;
+      opacity: 0.5;
+    }
+
+    /* ─── SLIDE 1: Cover ──────────────────────────────────────────────────── */
+    .s1 {
+      justify-content: space-between;
+      padding-top: 8vw;
+      padding-bottom: 6vw;
+    }
+
+    .s1-top { display: flex; flex-direction: column; }
+
+    .s1-headline {
+      font-family: var(--serif) !important;
+      font-size: 5.5em;
+      font-weight: 600 !important;
+      line-height: 1.06 !important;
+      letter-spacing: -0.025em !important;
+      color: var(--ink) !important;
+      margin-top: 1.8em !important;
+    }
+
+    .s1-sub {
+      font-family: var(--sans) !important;
+      font-size: 1.15em;
+      font-weight: 400;
+      line-height: 1.65;
+      color: var(--ink-mid) !important;
+      max-width: 58ch;
+      margin-top: 1.4em !important;
+    }
+
+    .s1-bottom {
+      font-family: var(--sans) !important;
+      font-size: 0.68em;
+      color: var(--ink-dim) !important;
+      letter-spacing: 0.06em;
+    }
+
+    /* ─── SLIDE 2: Problem / pull-quote ──────────────────────────────────── */
+    .s2 { justify-content: center; align-items: flex-start; }
+
+    .s2-quote {
+      font-family: var(--serif) !important;
+      font-size: 4.5em;
+      font-weight: 400 !important;
+      font-style: italic !important;
+      line-height: 1.1 !important;
+      letter-spacing: -0.015em !important;
+      color: var(--ink) !important;
+      max-width: 18ch;
+      margin-top: 1.4em !important;
+    }
+
+    .s2-citation {
+      font-family: var(--sans) !important;
+      font-size: 0.88em;
+      color: var(--ink-muted) !important;
+      margin-top: 1.6em !important;
+      font-style: normal;
+    }
+
+    /* ─── SLIDE 3: Big numbers ────────────────────────────────────────────── */
+    .s3 { justify-content: center; }
+
+    .s3-sub {
+      font-family: var(--sans) !important;
+      font-size: 1.9em;
+      font-weight: 600 !important;
+      font-family: var(--serif) !important;
+      color: var(--ink) !important;
+      margin-top: 0.6em !important;
+      margin-bottom: 2.5em !important;
+    }
+
+    .s3-cols {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 0.9rem;
-      margin-top: 1.4rem;
+      gap: 0;
     }
 
-    .feature-card {
-      background: var(--white);
-      border: 1.5px solid var(--sage-light);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem;
-      box-shadow: var(--shadow-sm);
+    .s3-col {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      padding-right: 3em;
     }
 
-    .feature-card .fc-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--sage-light);
-      border-radius: var(--radius-md);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--sage);
-      flex-shrink: 0;
+    .s3-col + .s3-col {
+      padding-left: 3em;
+      padding-right: 3em;
+      border-left: 1px solid var(--sage-rule);
     }
 
-    .feature-card .fc-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--ink);
-      line-height: 1.3;
+    .s3-col:last-child {
+      padding-right: 0;
     }
 
-    .feature-card .fc-body {
-      font-size: 0.77rem;
-      color: var(--ink-soft);
-      line-height: 1.55;
+    .s3-num {
+      font-family: var(--serif) !important;
+      font-size: 5.8em;
+      font-weight: 600 !important;
+      line-height: 0.9 !important;
+      letter-spacing: -0.03em !important;
+      color: var(--sage) !important;
     }
 
-    .compliance-bar {
-      display: flex;
-      gap: 1.25rem;
-      margin-top: 1rem;
-      padding-top: 0.9rem;
-      border-top: 1px solid var(--line);
-      align-items: center;
+    .s3-rule {
+      width: 100%;
+      height: 1px;
+      background: var(--sage-rule);
+      margin: 0.6em 0 0.5em;
     }
 
-    .compliance-bar span {
-      font-size: 0.68rem;
+    .s3-label {
+      font-family: var(--sans) !important;
+      font-size: 0.72em;
       font-weight: 500;
-      letter-spacing: 0.05em;
-      color: var(--ink-muted);
-      text-transform: uppercase;
-    }
-
-    /* ─── Slide 5 — Wie es funktioniert ─────────────────────────────────── */
-    .steps-slide .timeline {
-      display: grid;
-      grid-template-columns: 1fr 40px 1fr 40px 1fr;
-      align-items: start;
-      gap: 0;
-      margin-top: 1.5rem;
-    }
-
-    .step-card {
-      background: var(--white);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 1.25rem 1rem;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-    }
-
-    .step-badge {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      background: var(--sage);
-      color: var(--white);
-      border-radius: 50%;
-      font-size: 0.78rem;
-      font-weight: 700;
-      margin-bottom: 0.7rem;
-    }
-
-    .step-title {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--ink);
-      margin-bottom: 0.45rem;
-      line-height: 1.3;
-    }
-
-    .step-body {
-      font-size: 0.76rem;
-      color: var(--ink-soft);
-      line-height: 1.55;
-    }
-
-    .step-duration {
-      display: inline-block;
-      margin-top: 0.6rem;
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.07em;
-      text-transform: uppercase;
-      color: var(--sage);
-      background: var(--sage-light);
-      padding: 2px 8px;
-      border-radius: var(--radius-sm);
-    }
-
-    .timeline-arrow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--line);
-      margin-top: 1.5rem;
-    }
-
-    .steps-footnote {
-      margin-top: 1.1rem;
-      padding: 0.8rem 1.1rem;
-      background: var(--bone);
-      border-radius: var(--radius-md);
-    }
-
-    .steps-footnote p {
-      font-size: 0.77rem;
-      color: var(--ink-muted);
-      font-style: italic;
-      margin: 0;
-    }
-
-    /* ─── Slide 6 — Investition ──────────────────────────────────────────── */
-    .pricing-slide .pricing-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: 1.4rem;
-    }
-
-    .pricing-card {
-      background: var(--white);
-      border: 1.5px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .pricing-card.highlight {
-      background: var(--sage-light);
-      border-color: var(--sage);
-    }
-
-    .pricing-card .pc-label {
-      font-size: 0.68rem;
-      font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--ink-muted);
-      margin-bottom: 0.9rem;
+      color: var(--ink-muted) !important;
+      line-height: 1.5;
     }
 
-    .pricing-card.highlight .pc-label {
-      color: var(--sage-deep);
+    .s3-footnote {
+      font-family: var(--sans) !important;
+      font-size: 0.65em;
+      color: var(--ink-dim) !important;
+      margin-top: 2.5em !important;
     }
 
-    .price-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.45rem 0;
-      border-bottom: 1px solid var(--line);
+    /* ─── SLIDE 4: Lösung ─────────────────────────────────────────────────── */
+    .s4 { justify-content: center; }
+
+    .s4-grid {
+      display: grid;
+      grid-template-columns: 47% 47%;
+      gap: 0 6%;
+      margin-top: 0;
+      align-items: start;
     }
 
-    .pricing-card.highlight .price-row {
-      border-bottom-color: rgba(107,142,127,0.3);
+    .s4-left {}
+
+    .s4-headline {
+      font-family: var(--serif) !important;
+      font-size: 2.8em;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+      letter-spacing: -0.02em !important;
+      color: var(--ink) !important;
+      margin-bottom: 0.8em !important;
     }
 
-    .price-row:last-child {
-      border-bottom: none;
+    .s4-body {
+      font-family: var(--sans) !important;
+      font-size: 0.9em;
+      line-height: 1.7;
+      color: var(--ink-mid) !important;
+      max-width: 46ch;
     }
 
-    .price-row .pr-name {
-      font-size: 0.8rem;
-      color: var(--ink-soft);
-    }
-
-    .price-row .pr-val {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .price-row.total .pr-name {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .price-row.total .pr-val {
-      font-size: 1.1rem;
-      font-weight: 800;
-      color: var(--sage-deep);
-    }
-
-    .roi-card {
-      background: var(--white);
-      border: 1.5px solid var(--line);
-      border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .roi-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      padding: 0.45rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-
-    .roi-row:last-child {
-      border-bottom: none;
-      margin-top: 0.4rem;
-    }
-
-    .roi-row .rr-name {
-      font-size: 0.8rem;
-      color: var(--ink-soft);
-    }
-
-    .roi-row .rr-val {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--ink);
-    }
-
-    .roi-row.net .rr-name {
-      font-size: 0.88rem;
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .roi-row.net .rr-val {
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--sage-deep);
-    }
-
-    .pricing-sub {
-      margin-top: 0.8rem;
-      font-size: 0.73rem;
-      color: var(--ink-muted);
-      font-style: italic;
-      line-height: 1.55;
-      grid-column: 1 / -1;
-    }
-
-    /* ─── Slide 7 — CTA ──────────────────────────────────────────────────── */
-    .cta-slide {
-      background: var(--cream);
-    }
-
-    .cta-headline {
-      font-family: var(--font-serif);
-      font-size: 2.7rem;
-      font-weight: 700;
-      color: var(--sage);
-      line-height: 1.2;
-      max-width: 660px;
-    }
-
-    .cta-bullets {
-      list-style: none;
-      padding: 0;
-      margin: 1.25rem 0 1.6rem;
+    .s4-right {
       display: flex;
       flex-direction: column;
-      gap: 0.65rem;
+      gap: 0;
+      border-left: 1px solid var(--sage-rule);
+      padding-left: 2.5em;
     }
 
-    .cta-bullets li {
+    .s4-item {
+      padding: 1.3em 0;
+    }
+
+    .s4-item + .s4-item {
+      border-top: 1px solid var(--sage-rule);
+    }
+
+    .s4-item-top {
       display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-size: 0.92rem;
-      color: var(--ink-soft);
-      line-height: 1.45;
+      align-items: baseline;
+      gap: 1em;
+      margin-bottom: 0.3em;
     }
 
-    .cta-bullets li .check-icon {
-      flex-shrink: 0;
-      color: var(--sage);
-    }
-
-    .cta-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--sage);
-      color: var(--white);
-      border-radius: var(--radius-lg);
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-      box-shadow: var(--shadow-md);
-      max-width: 520px;
-    }
-
-    .cta-box .cta-url {
-      font-size: 0.85rem;
+    .s4-item-key {
+      font-family: var(--sans) !important;
+      font-size: 0.65em;
       font-weight: 500;
-      opacity: 0.85;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage) !important;
     }
 
-    .cta-contact {
-      margin-top: 1.4rem;
-      padding-top: 1.1rem;
-      border-top: 1px solid var(--line);
+    .s4-item-val {
+      font-family: var(--sans) !important;
+      font-size: 0.8em;
+      font-weight: 600;
+      color: var(--ink) !important;
+    }
+
+    .s4-item-desc {
+      font-family: var(--sans) !important;
+      font-size: 0.78em;
+      color: var(--ink-muted) !important;
+      line-height: 1.5;
+    }
+
+    /* ─── SLIDE 5: Warum Spezialist ──────────────────────────────────────── */
+    .s5 { justify-content: center; }
+
+    .s5-headline {
+      font-family: var(--serif) !important;
+      font-size: 3.3em;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+      letter-spacing: -0.02em !important;
+      color: var(--ink) !important;
+      max-width: 22ch;
+      margin-bottom: 2.4em !important;
+    }
+
+    .s5-manifesto {
       display: flex;
-      gap: 2rem;
-      align-items: center;
+      flex-direction: column;
+      gap: 0;
+      max-width: 74ch;
     }
 
-    .cta-contact .contact-item {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--ink-muted);
+    .s5-item {
+      display: grid;
+      grid-template-columns: 10px 1fr;
+      gap: 0 1.4em;
+      padding: 1.4em 0;
     }
 
-    .cta-contact .contact-item svg {
-      color: var(--sage);
+    .s5-item + .s5-item {
+      border-top: 1px solid var(--sage-rule);
+    }
+
+    .s5-bullet {
+      width: 6px;
+      height: 6px;
+      background: var(--sage);
+      margin-top: 0.55em;
       flex-shrink: 0;
     }
 
-    /* ─── Print / PDF-Export ─────────────────────────────────────────────── */
+    .s5-text {
+      font-family: var(--sans) !important;
+      font-size: 0.92em;
+      line-height: 1.7;
+      color: var(--ink-mid) !important;
+    }
+
+    /* ─── SLIDE 6: Ablauf ─────────────────────────────────────────────────── */
+    .s6 { justify-content: center; }
+
+    .s6-headline {
+      font-family: var(--serif) !important;
+      font-size: 3em;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+      letter-spacing: -0.02em !important;
+      color: var(--ink) !important;
+      margin-bottom: 2.5em !important;
+    }
+
+    .s6-steps {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 0;
+    }
+
+    .s6-step {
+      padding-right: 3em;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .s6-step + .s6-step {
+      padding-left: 3em;
+      padding-right: 3em;
+      border-left: 1px solid var(--sage-rule);
+    }
+
+    .s6-step:last-child {
+      padding-right: 0;
+    }
+
+    .s6-num {
+      font-family: var(--serif) !important;
+      font-size: 4em;
+      font-weight: 600 !important;
+      line-height: 0.9 !important;
+      letter-spacing: -0.04em !important;
+      color: var(--sage) !important;
+      margin-bottom: 0.5em !important;
+    }
+
+    .s6-title {
+      font-family: var(--serif) !important;
+      font-size: 1.45em;
+      font-weight: 600 !important;
+      color: var(--ink) !important;
+      margin-bottom: 0.55em !important;
+      line-height: 1.2 !important;
+    }
+
+    .s6-body {
+      font-family: var(--sans) !important;
+      font-size: 0.82em;
+      line-height: 1.65;
+      color: var(--ink-muted) !important;
+    }
+
+    .s6-footnote {
+      font-family: var(--sans) !important;
+      font-size: 0.68em;
+      color: var(--ink-dim) !important;
+      font-style: italic;
+      margin-top: 2.5em !important;
+    }
+
+    /* ─── SLIDE 7: Was Sie bekommen ──────────────────────────────────────── */
+    .s7 { justify-content: center; }
+
+    .s7-headline {
+      font-family: var(--serif) !important;
+      font-size: 3em;
+      font-weight: 600 !important;
+      line-height: 1.1 !important;
+      letter-spacing: -0.02em !important;
+      color: var(--ink) !important;
+      margin-bottom: 2em !important;
+    }
+
+    .s7-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 6%;
+      align-items: start;
+      margin-bottom: 2.5em;
+    }
+
+    .s7-col-label {
+      font-family: var(--sans) !important;
+      font-size: 0.65em;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--sage) !important;
+      margin-bottom: 1.2em !important;
+    }
+
+    .s7-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6em;
+    }
+
+    .s7-list li {
+      font-family: var(--sans) !important;
+      font-size: 0.88em;
+      line-height: 1.6;
+      color: var(--ink-mid) !important;
+      display: flex;
+      align-items: baseline;
+      gap: 0.7em;
+    }
+
+    .s7-dash {
+      color: var(--sage) !important;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .s7-callout {
+      background: var(--sage-light);
+      border-top: 1.5px solid var(--sage);
+      padding: 1.4em 1.8em;
+    }
+
+    .s7-callout-head {
+      font-family: var(--serif) !important;
+      font-size: 1.25em;
+      font-weight: 600 !important;
+      color: var(--ink) !important;
+      margin-bottom: 0.4em !important;
+      line-height: 1.2 !important;
+    }
+
+    .s7-callout-body {
+      font-family: var(--sans) !important;
+      font-size: 0.82em;
+      color: var(--ink-muted) !important;
+      line-height: 1.6;
+    }
+
+    /* ─── SLIDE 8: CTA ────────────────────────────────────────────────────── */
+    .s8 {
+      justify-content: space-between;
+      padding-top: 8vw;
+      padding-bottom: 6vw;
+    }
+
+    .s8-top {}
+
+    .s8-headline {
+      font-family: var(--serif) !important;
+      font-size: 4.8em;
+      font-weight: 600 !important;
+      line-height: 1.06 !important;
+      letter-spacing: -0.025em !important;
+      color: var(--ink) !important;
+      margin-bottom: 0.6em !important;
+    }
+
+    .s8-body {
+      font-family: var(--sans) !important;
+      font-size: 1em;
+      line-height: 1.7;
+      color: var(--ink-mid) !important;
+      max-width: 60ch;
+      margin-bottom: 1.8em !important;
+    }
+
+    .s8-cta-frame {
+      border-top: 2px solid var(--sage);
+      border-bottom: 2px solid var(--sage);
+      padding: 1em 0;
+      display: flex;
+      align-items: center;
+      gap: 1.5em;
+      max-width: 52ch;
+    }
+
+    .s8-cta-label {
+      font-family: var(--sans) !important;
+      font-size: 0.68em;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink-muted) !important;
+      flex-shrink: 0;
+    }
+
+    .s8-cta-url {
+      font-family: var(--serif) !important;
+      font-size: 1.1em;
+      font-weight: 600 !important;
+      color: var(--sage) !important;
+      letter-spacing: -0.01em !important;
+    }
+
+    .s8-cta-arrow {
+      font-family: var(--sans) !important;
+      font-size: 1.2em;
+      color: var(--sage) !important;
+      font-weight: 400;
+      flex-shrink: 0;
+    }
+
+    .s8-contact {
+      font-family: var(--sans) !important;
+      font-size: 0.72em;
+      color: var(--ink-dim) !important;
+      line-height: 1.8;
+    }
+
+    /* ─── Print / PDF ─────────────────────────────────────────────────────── */
     @media print {
       * {
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
         color-adjust: exact !important;
       }
-
+      .reveal-viewport,
       .reveal .slides section {
-        background: var(--cream) !important;
-      }
-
-      .reveal-viewport {
-        background: var(--cream) !important;
+        background: var(--paper) !important;
       }
     }
 
-    /* Reveal print-pdf page breaks */
     .reveal.print-pdf .slides .pdf-page {
-      background: var(--cream);
+      background: var(--paper) !important;
     }
 
-    /* ─── Utility ────────────────────────────────────────────────────────── */
-    .mt-1 { margin-top: 0.5rem; }
-    .mt-2 { margin-top: 1rem; }
-    .mt-3 { margin-top: 1.5rem; }
-
-    /* Ensure icons are block-level where needed */
     svg { display: block; }
-
-    /* Page number (PDF context) */
-    .slide-num {
-      position: absolute;
-      bottom: 1.25rem;
-      right: 2rem;
-      font-size: 0.65rem;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--line);
-    }
-
-    /* Divider line accent */
-    .h-divider {
-      width: 40px;
-      height: 3px;
-      background: var(--sage);
-      border-radius: 2px;
-      margin-bottom: 1rem;
-    }
   </style>
 </head>
 <body>
@@ -740,424 +668,295 @@
 <div class="reveal">
   <div class="slides">
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 1 — COVER
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="cover-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         01 / 08 — COVER
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s1">
 
-        <!-- Sage gradient corner -->
-        <div class="cover-corner"></div>
+        <div class="s1-top">
+          <div class="eyebrow">Für Tierarzt-Praxen &nbsp;·&nbsp; Mai 2026</div>
 
-        <!-- Phone icon top-right -->
-        <div class="cover-phone-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.71 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.57 1.2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6 6l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
-          </svg>
-        </div>
-
-        <!-- Content -->
-        <div>
-          <div class="label">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-            telefon-retter · für Tierarztpraxen
+          <div class="s1-headline">
+            Ihre Anrufe.<br/>
+            KI-beantwortet.<br/>
+            24/7.
           </div>
 
-          <h1 class="cover-headline">
-            Ihr Telefon.<br/>
-            <span>KI-beantwortet.</span> 24/7.
-          </h1>
-
-          <p class="cover-sub">
-            Verlieren Sie keine Notfälle, keine Termin-Buchungen, keine Patienten mehr.
-          </p>
+          <div class="s1-sub">
+            Eine Lösung für verlorene Mailbox-Anrufe, Notfall-Routing und Termin-Buchung — gebaut für deutsche Praxen.
+          </div>
         </div>
 
-        <div class="cover-footer">
-          <span class="cover-footer-logo">firma-retter</span>
-          <div class="cover-footer-dot"></div>
-          <span class="cover-footer-logo">telefon-retter</span>
-          <div class="cover-footer-dot"></div>
-          <span class="cover-footer-logo">2026</span>
-        </div>
+        <div class="s1-bottom">firma-retter &nbsp;·&nbsp; telefon-retter</div>
 
-        <div class="slide-num">1 / 8</div>
+        <div class="slide-num">01 / 08</div>
       </div>
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 2 — DAS PROBLEM
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="problem-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         02 / 08 — DAS PROBLEM
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s2">
 
-        <div class="label">Das Problem</div>
+        <div class="eyebrow">Das Problem</div>
 
-        <div class="big-stat"><span>30%</span> Ihrer Anrufer<br/>landen auf der Mailbox.</div>
+        <div class="h-rule" style="margin-top:0;"></div>
 
-        <div class="bullet-cards">
-          <div class="bullet-card">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </div>
-            <p>Mittagspause + Operation = niemand am Telefon</p>
-          </div>
-          <div class="bullet-card">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            </div>
-            <p>Notfall-Anrufe gehen verloren — Patient geht zur anderen Praxis</p>
-          </div>
-          <div class="bullet-card">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            </div>
-            <p>Terminbuchungen scheitern an fehlender Erreichbarkeit</p>
-          </div>
-          <div class="bullet-card">
-            <div class="icon-wrap">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <p>Routine-Fragen blockieren wertvolle Mitarbeiter-Zeit</p>
-          </div>
+        <div class="s2-quote">
+          &ldquo;Jeder dritte Anruf<br/>landet auf der Mailbox.&rdquo;
         </div>
 
-        <div class="quote-card">
-          <p>Tierärzte-Studie BPT 2024: durchschnittlich 12–15 verpasste Anrufe pro Woche und Praxis.</p>
+        <div class="h-rule"></div>
+
+        <div class="s2-citation">
+          Bundesverband Praktischer Tierärzte e.V. — Branchenreport 2024
         </div>
 
-        <div class="slide-num">2 / 8</div>
+        <div class="slide-num">02 / 08</div>
       </div>
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 3 — WAS ES SIE KOSTET
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="cost-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         03 / 08 — DIE KOSTEN
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s3">
 
-        <div class="label">ROI-Rechnung</div>
+        <div class="eyebrow">Die Kosten pro Monat</div>
 
-        <h1>Was kostet Sie 30% verlorene Anrufe?</h1>
+        <div class="s3-sub">Was 30&nbsp;% verlorene Anrufe kosten.</div>
 
-        <div class="three-cols">
-          <div class="cost-col">
-            <span class="cost-num">12</span>
-            <span class="cost-label">verpasste Anrufe<br/>pro Woche</span>
+        <div class="s3-cols">
+          <div class="s3-col">
+            <div class="s3-num">12</div>
+            <div class="s3-rule"></div>
+            <div class="s3-label">Verpasste Anrufe<br/>pro Woche</div>
           </div>
-
-          <div class="cost-operator">×</div>
-
-          <div class="cost-col">
-            <span class="cost-num">45 €</span>
-            <span class="cost-label">Durchschnitts-<br/>konsultation</span>
+          <div class="s3-col">
+            <div class="s3-num">45&nbsp;€</div>
+            <div class="s3-rule"></div>
+            <div class="s3-label">Durchschnitts-<br/>konsultation</div>
           </div>
-
-          <div class="cost-operator">=</div>
-
-          <div class="cost-col result">
-            <span class="cost-num">2.160 €</span>
-            <span class="cost-label">verlorener Umsatz<br/>pro Monat</span>
+          <div class="s3-col">
+            <div class="s3-num">2.160&nbsp;€</div>
+            <div class="s3-rule"></div>
+            <div class="s3-label">Umsatzverlust<br/>pro Monat</div>
           </div>
         </div>
 
-        <div class="pull-quote">
-          <p>Pro Jahr: <strong>ca. 25.000 €</strong> verlorener Umsatz — nur durch nicht-erreichbares Telefon.</p>
+        <div class="s3-footnote">
+          Praxis mit 4 Mitarbeitern &nbsp;·&nbsp; Durchschnittswert
         </div>
 
-        <div class="slide-num">3 / 8</div>
+        <div class="slide-num">03 / 08</div>
       </div>
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 4 — DIE LÖSUNG
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="solution-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         04 / 08 — DIE LÖSUNG
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s4">
 
-        <div class="label">Die Lösung</div>
+        <div class="eyebrow">Die Lösung</div>
 
-        <h1>Unsere KI nimmt jeden Anruf an.<br/>In 1–2 Wochen live.</h1>
-
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="fc-icon">
-              <!-- mic icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        <div class="s4-grid" style="margin-top:1.4em;">
+          <div class="s4-left">
+            <div class="s4-headline">
+              Deutsche KI-Plattform.<br/>Spezialisierter Setup-Service.
             </div>
-            <div class="fc-title">24/7 KI-Stimme</div>
-            <div class="fc-body">Deutsche Stimme, kein Roboter-Klang. Beantwortet Standardfragen zu Öffnungszeiten, Preisen, Impfungen und mehr.</div>
+            <div class="s4-body">
+              Wir setzen Fonio ein — eine deutsche KI-Telefon-Plattform aus Bremen, DSGVO-konform, Hetzner-Hosting in Nürnberg. Sichere Tech-Basis. Wir sind Implementation-Spezialist für Konfiguration: Prompt, Wissensbasis, Praxissoftware-Anbindung.
+            </div>
           </div>
 
-          <div class="feature-card">
-            <div class="fc-icon">
-              <!-- alert-circle icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <div class="s4-right">
+            <div class="s4-item">
+              <div class="s4-item-top">
+                <span class="s4-item-key">Annahme</span>
+                <span class="s4-item-val">24&nbsp;/&nbsp;7</span>
+              </div>
+              <div class="s4-item-desc">Jeder Anruf, ohne Pause</div>
             </div>
-            <div class="fc-title">Notfall-Routing</div>
-            <div class="fc-body">Erkennt Notrufe automatisch und eskaliert sofort auf Ihr Handy oder die Notfall-Rufnummer Ihrer Wahl.</div>
-          </div>
-
-          <div class="feature-card">
-            <div class="fc-icon">
-              <!-- calendar-check icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="9 16 11 18 15 14"/></svg>
+            <div class="s4-item">
+              <div class="s4-item-top">
+                <span class="s4-item-key">Routing</span>
+                <span class="s4-item-val">Notfall → Handy</span>
+              </div>
+              <div class="s4-item-desc">Notruf 112 bleibt unberührt</div>
             </div>
-            <div class="fc-title">Termin-Buchung</div>
-            <div class="fc-body">Bucht Termine in Calendly oder direkt in Ihre Praxissoftware: HVO, PetVet, VetEra — vollautomatisch.</div>
+            <div class="s4-item">
+              <div class="s4-item-top">
+                <span class="s4-item-key">Buchung</span>
+                <span class="s4-item-val">Calendly / Praxissoftware</span>
+              </div>
+              <div class="s4-item-desc">HVO · PetVet · VetEra · easyVet</div>
+            </div>
           </div>
         </div>
 
-        <div class="compliance-bar">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" color="#6B8E7F"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-          <span>DSGVO-konform</span>
-          <span style="color:var(--line)">·</span>
-          <span>Deutsche Server</span>
-          <span style="color:var(--line)">·</span>
-          <span>Notruf 112 läuft separat über Ihre TK-Anlage</span>
-        </div>
-
-        <div class="dyi-warning" style="margin-top:1.5rem;padding:1rem;background:#FAFAF7;border-left:4px solid var(--sage);border-radius:6px;font-size:0.85em;line-height:1.5;">
-          <strong style="color:var(--sage);">Warum nicht selbst bei Fonio einrichten?</strong><br>
-          Technisch möglich. Bedeutet aber: 6-10 Stunden Setup-Eigenarbeit, Prompt-Engineering, Webhook-Programmierung, monatliche Optimierung. Das machen wir. Sie liefern nur die Antworten.
-        </div>
-
-        <div class="slide-num">4 / 8</div>
+        <div class="slide-num">04 / 08</div>
       </div>
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 5 — WARUM LAUFENDE BETREUUNG WICHTIG IST
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="solution-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         05 / 08 — WARUM SPEZIALIST
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s5">
 
-        <div class="label">Laufende Betreuung</div>
+        <div class="eyebrow">Warum Spezialist</div>
 
-        <h1>Eine KI, die immer aktuell bleibt.</h1>
+        <div class="s5-headline">
+          Sie konzentrieren sich auf Tierheilkunde.<br/>Wir auf die Technik.
+        </div>
 
-        <p style="color:var(--ink-soft);font-size:0.95rem;margin-top:0.5rem;line-height:1.5;">Ohne laufende Pflege wird jede KI mit der Zeit ungenau. Das ist unsere Aufgabe.</p>
-
-        <div class="feature-cards">
-          <div class="feature-card">
-            <div class="fc-icon">
-              <!-- refresh-cw icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        <div class="s5-manifesto">
+          <div class="s5-item">
+            <div class="s5-bullet"></div>
+            <div class="s5-text">
+              Die KI lernt aus echten Anrufen. Wir pflegen sie monatlich nach. So bleibt sie über die Jahre treffsicher — statt wie DIY-Setups schnell zu veralten.
             </div>
-            <div class="fc-title">Anrufe analysieren</div>
-            <div class="fc-body">Wir hören in echte Patienten-Anrufe rein. Wo missversteht die KI? Wo eskaliert sie zu selten oder zu oft? Wir tunen den Prompt monatlich.</div>
           </div>
-
-          <div class="feature-card">
-            <div class="fc-icon">
-              <!-- book-open icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          <div class="s5-item">
+            <div class="s5-bullet"></div>
+            <div class="s5-text">
+              Wir kennen Praxis-Workflows. HVO-Termine, Notfall-Eskalation, Saison-FAQs für Impfungen — wir bauen das in den Hintergrund Ihrer Praxis ein, nicht obendrauf.
             </div>
-            <div class="fc-title">Wissen aktuell halten</div>
-            <div class="fc-body">Neue Behandlungen, geänderte Öffnungszeiten, neue Mitarbeiter, Urlaubsvertretungen — alles muss in die KI-Wissensbasis. Sie sagen Bescheid, wir pflegen.</div>
           </div>
-
-          <div class="feature-card">
-            <div class="fc-icon">
-              <!-- shield-check icon -->
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          <div class="s5-item">
+            <div class="s5-bullet"></div>
+            <div class="s5-text">
+              Bei Problemen: ein Ansprechpartner. Sie rufen uns an, wir lösen es. Sie müssen nicht selbst zwischen Fonio-Support und Ihrer IT-Truppe vermitteln.
             </div>
-            <div class="fc-title">Notfälle richtig eskalieren</div>
-            <div class="fc-body">Notfall-Routing-Regeln entwickeln sich. Ein Hund-Vergiftungs-Fall heute → morgen erkennt die KI das Muster. Wir trainieren weiter.</div>
           </div>
         </div>
 
-        <div class="pull-quote" style="margin-top:1.25rem;">
-          <p>"Ohne diese Betreuung wäre Ihre KI nach 3 Monaten veraltet — falsche Termine, fehlende FAQs, schlechte Eskalation. Das ist das Risiko bei DIY."</p>
-        </div>
-
-        <div class="slide-num">5 / 8</div>
+        <div class="slide-num">05 / 08</div>
       </div>
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 6 — WIE ES FUNKTIONIERT
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="steps-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         06 / 08 — DER ABLAUF
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s6">
 
-        <div class="label">Onboarding</div>
+        <div class="eyebrow">Der Ablauf</div>
 
-        <h1>In 3 Schritten zum 24/7-Telefon.</h1>
+        <div class="s6-headline">Drei Schritte. Eine Inbetriebnahme.</div>
 
-        <div class="timeline">
-          <div class="step-card">
-            <div class="step-badge">1</div>
-            <div class="step-title">Discovery</div>
-            <div class="step-body">Wir nehmen Ihre FAQs, Öffnungszeiten und Notfall-Regeln auf. Sie kennen Ihre Praxis — wir übersetzen das in KI.</div>
-            <span class="step-duration">60 Minuten</span>
+        <div class="s6-steps">
+          <div class="s6-step">
+            <div class="s6-num">01</div>
+            <div class="s6-title">Discovery</div>
+            <div class="s6-body">Wir nehmen Ihre FAQs, Öffnungszeiten und Notfall-Regeln auf.</div>
           </div>
-
-          <div class="timeline-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          <div class="s6-step">
+            <div class="s6-num">02</div>
+            <div class="s6-title">Aufbau</div>
+            <div class="s6-body">Wir bauen Prompt, Wissensbasis und Praxissoftware-Anbindung.</div>
           </div>
-
-          <div class="step-card">
-            <div class="step-badge">2</div>
-            <div class="step-title">Konfiguration</div>
-            <div class="step-body">Wir bauen KI-Prompt, Wissensbasis und Webhooks. Sie müssen nichts technisches verstehen oder tun.</div>
-            <span class="step-duration">1 Woche</span>
-          </div>
-
-          <div class="timeline-arrow">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-          </div>
-
-          <div class="step-card">
-            <div class="step-badge">3</div>
-            <div class="step-title">Live-Test + Go-Live</div>
-            <div class="step-body">5 Test-Anrufe gemeinsam, finale Abstimmung — dann scharf. Sie hören und fühlen das Ergebnis vorher.</div>
-            <span class="step-duration">30 Minuten</span>
+          <div class="s6-step">
+            <div class="s6-num">03</div>
+            <div class="s6-title">Go-Live</div>
+            <div class="s6-body">Wir testen gemeinsam, dann läuft die KI im Echtbetrieb.</div>
           </div>
         </div>
 
-        <div class="steps-footnote">
-          <p>Sie müssen nichts Technisches verstehen. Wir machen alles. Sie liefern nur die Antworten — wir bauen das System.</p>
+        <div class="s6-footnote">
+          Setup-Dauer richtet sich nach Praxis-Komplexität — wir besprechen das im Demo.
         </div>
 
-        <div class="slide-num">6 / 8</div>
+        <div class="slide-num">06 / 08</div>
       </div>
     </section>
 
 
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 7 — INVESTITION + ROI
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="pricing-slide">
-      <div class="slide-inner">
+    <!-- ═══════════════════════════════════════════════════════════
+         07 / 08 — WAS SIE BEKOMMEN
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s7">
 
-        <div class="label">Was Sie bekommen</div>
+        <div class="eyebrow">Was Sie bekommen</div>
 
-        <h1>Was Sie bei uns bekommen.</h1>
-
-        <p style="color:var(--ink-soft);font-size:0.95rem;margin-top:0.4rem;line-height:1.5;">Implementation Partner — kein DIY. Komplett-Paket.</p>
-
-        <div class="pricing-grid" style="margin-top:1.25rem;">
-
-          <div class="pricing-card highlight">
-            <div class="pc-label">Setup (einmalig)</div>
-
-            <div class="price-row" style="border-bottom:none;padding:0.35rem 0;align-items:flex-start;gap:0.6rem;display:flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sage);flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="pr-name">Maßgeschneiderte KI-Konfiguration für Ihre Praxis</span>
-            </div>
-            <div class="price-row" style="border-bottom:none;padding:0.35rem 0;align-items:flex-start;gap:0.6rem;display:flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sage);flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="pr-name">Anbindung an Ihre Praxissoftware (HVO, PetVet, VetEra, Calendly)</span>
-            </div>
-            <div class="price-row" style="border-bottom:none;padding:0.35rem 0;align-items:flex-start;gap:0.6rem;display:flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sage);flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="pr-name">Live-Test mit 5 echten Anrufen vor Go-Live</span>
-            </div>
-          </div>
-
-          <div class="roi-card">
-            <div class="pc-label" style="font-size:0.68rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-muted); margin-bottom:0.9rem;">Care (laufend)</div>
-
-            <div class="roi-row" style="border-bottom:none;padding:0.35rem 0;align-items:flex-start;gap:0.6rem;display:flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sage);flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="rr-name">Monatlicher Performance-Report</span>
-            </div>
-            <div class="roi-row" style="border-bottom:none;padding:0.35rem 0;align-items:flex-start;gap:0.6rem;display:flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sage);flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="rr-name">Prompt-Optimierung basierend auf echten Calls</span>
-            </div>
-            <div class="roi-row" style="border-bottom:none;padding:0.35rem 0;align-items:flex-start;gap:0.6rem;display:flex;">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--sage);flex-shrink:0;margin-top:2px;"><polyline points="20 6 9 17 4 12"/></svg>
-              <span class="rr-name">Updates Ihrer FAQs + Öffnungszeiten + Notfall-Regeln</span>
-            </div>
-          </div>
-
+        <div class="s7-headline">
+          Komplett-Paket.<br/>Implementation und laufende Betreuung.
         </div>
 
-        <div class="investment-teaser" style="margin-top:1.5rem;padding:1.5rem;background:var(--sage-light);border:1px solid var(--sage);border-radius:8px;text-align:center;">
-          <div style="font-family:var(--font-serif);font-size:1.3em;color:var(--ink);margin-bottom:0.5rem;">Investition: Kommt auf Ihre Praxis-Größe an.</div>
-          <div style="color:var(--ink-muted);font-size:0.95em;line-height:1.5;">
-            Solo-Praxis, Standard-Praxis oder Klinik?<br>
-            Wir besprechen das Passende live im 15-Min-Demo-Call — inklusive konkreter ROI-Rechnung für Ihren Fall.
-          </div>
-        </div>
-
-        <div style="margin-top:1.25rem;text-align:center;color:var(--ink-muted);font-size:0.88em;font-style:italic;">
-          Faustregel: Wenn Sie bisher mehr als 8 verpasste Anrufe pro Woche haben, rechnet sich die Investition innerhalb der ersten 2 Monate.
-        </div>
-
-        <div class="slide-num">7 / 8</div>
-      </div>
-    </section>
-
-
-    <!-- ═══════════════════════════════════════════════════════════════════
-         SLIDE 7 — NÄCHSTER SCHRITT / CTA
-    ══════════════════════════════════════════════════════════════════════ -->
-    <section class="cta-slide">
-      <div class="slide-inner">
-
-        <div class="h-divider"></div>
-
-        <h1 class="cta-headline">15 Minuten. Live-Demo.<br/>Keine Verpflichtung.</h1>
-
-        <ul class="cta-bullets">
-          <li>
-            <span class="check-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            Sie hören die deutsche KI-Stimme live
-          </li>
-          <li>
-            <span class="check-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            Wir analysieren Ihren konkreten Bedarf
-          </li>
-          <li>
-            <span class="check-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            Sie bekommen Ihr individuelles Angebot — passend zur Praxis-Größe
-          </li>
-          <li>
-            <span class="check-icon">
-              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-            Keine Verkaufs-Show. Wenn's nicht passt, sagen Sie das und gut ist.
-          </li>
-        </ul>
-
-        <div class="cta-box">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <div class="s7-grid">
           <div>
-            <div>Termin direkt buchen &rarr;</div>
-            <div class="cta-url">cal.eu/firma-retter-johannes/15min</div>
+            <div class="s7-col-label">Setup (einmalig)</div>
+            <ul class="s7-list">
+              <li><span class="s7-dash">&#8212;</span> Maßgeschneiderte KI-Konfiguration</li>
+              <li><span class="s7-dash">&#8212;</span> Wissensbasis aus Ihrer Praxis-Website</li>
+              <li><span class="s7-dash">&#8212;</span> Anbindung an Calendly oder Praxissoftware</li>
+              <li><span class="s7-dash">&#8212;</span> Live-Test mit echten Anrufen</li>
+            </ul>
+          </div>
+          <div>
+            <div class="s7-col-label">Care (laufend)</div>
+            <ul class="s7-list">
+              <li><span class="s7-dash">&#8212;</span> Monatliche Prompt-Optimierung</li>
+              <li><span class="s7-dash">&#8212;</span> Updates Ihrer FAQs und Öffnungszeiten</li>
+              <li><span class="s7-dash">&#8212;</span> Performance-Report jeden Monat</li>
+              <li><span class="s7-dash">&#8212;</span> Ein Ansprechpartner für alles</li>
+            </ul>
           </div>
         </div>
 
-        <div class="cta-contact">
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            Johannes Jaißle · firma-retter
-          </div>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            hallo@firma-retter.de &middot; +49 176 30152930
-          </div>
-          <div class="contact-item">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-            cal.eu/firma-retter-johannes/15min
+        <div class="s7-callout">
+          <div class="s7-callout-head">Investition: maßgeschneidert.</div>
+          <div class="s7-callout-body">
+            Solo-Praxis, Standard-Praxis oder Klinik — wir besprechen das passende Paket live im 15-Minuten-Demo.
           </div>
         </div>
 
-        <div class="slide-num">8 / 8</div>
+        <div class="slide-num">07 / 08</div>
+      </div>
+    </section>
+
+
+    <!-- ═══════════════════════════════════════════════════════════
+         08 / 08 — CTA
+    ════════════════════════════════════════════════════════════════ -->
+    <section>
+      <div class="slide-frame s8">
+
+        <div class="s8-top">
+          <div class="eyebrow">Nächster Schritt</div>
+
+          <div class="s8-headline">
+            15 Minuten.<br/>
+            Live-Demo.<br/>
+            Keine Verpflichtung.
+          </div>
+
+          <div class="s8-body">
+            Sie hören die deutsche KI-Stimme. Wir analysieren Ihren konkreten Bedarf. Sie bekommen Ihr individuelles Angebot — passend zur Praxis-Größe.
+          </div>
+
+          <div class="s8-cta-frame">
+            <span class="s8-cta-label">Termin auswählen</span>
+            <span class="s8-cta-url">cal.eu/firma-retter-johannes/15min</span>
+            <span class="s8-cta-arrow">&#8594;</span>
+          </div>
+        </div>
+
+        <div class="s8-contact">
+          Johannes Jaißle &nbsp;·&nbsp; firma-retter<br/>
+          hallo@firma-retter.de &nbsp;·&nbsp; +49 176 30152930
+        </div>
+
+        <div class="slide-num">08 / 08</div>
       </div>
     </section>
 
@@ -1172,7 +971,7 @@
     height: 720,
     margin: 0,
     minScale: 0.1,
-    maxScale: 2.0,
+    maxScale: 2.5,
     controls: true,
     progress: false,
     slideNumber: false,
